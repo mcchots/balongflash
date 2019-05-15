@@ -51,7 +51,7 @@ PurgeComm(hSerial, PURGE_RXCLEAR);
 
 write(siofd,"\x7e",1);  // отсылаем префикс
 
-if (write(siofd,outcmdbuf,outlen) == 0) {   printf("\n Ошибка записи команды");return 0;  }
+if (write(siofd,outcmdbuf,outlen) == 0) {   printf("\n Write command failed");return 0;  }
 FlushFileBuffers(hSerial);
 
 return 1;
@@ -85,7 +85,7 @@ replybuf[incount++]=c;
 if (masslen != 0) {
  res=read(siofd,replybuf+1,masslen-1);
  if (res != (masslen-1)) {
-   printf("\nСлишком короткий ответ от модема: %i байт, ожидалось %i байт\n",res+1,masslen);
+   printf("\nModem response too short: %i bytes, %i bytes expected\n",res+1,masslen);
    dump(replybuf,res+1,0);
    return 0;
  }  
@@ -253,16 +253,16 @@ char port_name[256];
 
 if (*devname == '\0')
 {
-  printf("\n\nПоиск прошивочного порта...\n");
+  printf("\n\nSearch for firmware port...\n");
   
   if (find_port(&port_no, port_name) == 0)
   {
     sprintf(devname, "%d", port_no);
-    printf("Порт: \"%s\"\n", port_name);
+    printf("Port: \"%s\"\n", port_name);
   }
   else
   {
-    printf("Порт не обнаружен!\n");
+    printf("Port not detected!\n");
     exit(0); 
   }
     //printf("\n! - Последовательный порт не задан\n"); 
@@ -274,7 +274,7 @@ strcat(device, devname);
 hSerial = CreateFileA(device, GENERIC_READ | GENERIC_WRITE, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 if (hSerial == INVALID_HANDLE_VALUE)
 {
-   printf("\n! - Последовательный порт COM%s не открывается\n", devname); 
+   printf("\n! - Serial port %s does not open\n", devname); 
    exit(0); 
 }
 
@@ -290,7 +290,7 @@ dcbSerialParams.fRtsControl = RTS_CONTROL_ENABLE;
 if (!SetCommState(hSerial, &dcbSerialParams))
 {
     CloseHandle(hSerial);
-    printf("\n! - Ошибка при инициализации COM-порта\n"); 
+    printf("\n! - Error initializing COM port\n"); 
     exit(0); 
     //return -1;
 }
@@ -303,7 +303,7 @@ CommTimeouts.WriteTotalTimeoutMultiplier = 0;
 if (!SetCommTimeouts(hSerial, &CommTimeouts))
 {
     CloseHandle(hSerial);
-    printf("\n! - Ошибка при инициализации COM-порта\n"); 
+    printf("\n! - Error initializing COM port\n"); 
     exit(0); 
 }
 
@@ -355,13 +355,13 @@ strcat(filename, fname);
 // 00-00000200-M3Boot.bin
 //проверяем имя файла на наличие знаков '-'
 if (fname[2] != '-' || fname[11] != '-') {
-  printf("\n Неправильный формат имени файла - %s\n",fname);
+  printf("\n Incorrect file name format - %s\n",fname);
   exit(1);
 }
 
 // проверяем цифровое поле ID раздела
 if (strspn(fname+3,"0123456789AaBbCcDdEeFf") != 8) {
-  printf("\n Ошибка в идентификаторе раздела - нецифровой знак - %s\n",filename);
+  printf("\n Section identifier error - non-numeric character - %s\n",filename);
   exit(1);
 }  
 sscanf(fname+3,"%8x",id);
@@ -369,17 +369,17 @@ sscanf(fname+3,"%8x",id);
 // Проверяем доступность и читаемость файла
 in=fopen(filename,"rb");
 if (in == 0) {
-  printf("\n Ошибка открытия файла %s\n",filename);
+  printf("\n Error opening file %s\n",filename);
   exit(1);
 }
 if (fread(&pt,1,4,in) != 4) {
-  printf("\n Ошибка чтения файла %s\n",filename);
+  printf("\n Error reading file %s\n",filename);
   exit(1);
 }
   
 // проверяем, что файл - сырой образ, без заголовка
 if (pt == 0xa55aaa55) {
-  printf("\n Файл %s имеет заголовок - для прошивки не подходит\n",filename);
+  printf("\n The file %s has a header - is not suitable for firmware\n",filename);
   exit(1);
 }
 
