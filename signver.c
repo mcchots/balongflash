@@ -37,9 +37,9 @@ struct {
   {1,2958, "Basic Firmware"},
   {1,2694, "E3372s-stick firmware"},
   {2,1110, "Web Interface + ISO for HLINK Modem"},
-  {6.1110, "Web Interface + ISO for HLINK Modem"},
+  {6,1110, "Web Interface + ISO for HLINK Modem"},
   {2,846, "ISO (dashboard) for stick-modem"},
-  {7.3750, "Firmware + ISO + Web Interface"},
+  {7,3750, "Firmware + ISO + Web Interface"},
 };
 
 #define signbaselen 6
