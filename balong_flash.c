@@ -59,25 +59,25 @@ while ((opt = getopt(argc, argv, "d:hp:mersng:kf")) != -1) {
    case 'h': 
      
 printf("\n The utility is designed for flashing modems on the Balong V7 chipset\n\n\
-%s [keys] <file name to load or file directory name> \n\n\
+ %s [keys] <file name to load or file directory name> \n\n\
  The following keys are valid:\n\n"
 #ifndef WIN32
-"-p <tty> - serial port for communication with the bootloader (default / dev / ttyUSB0)\n"
+" -p <tty> - serial port for communication with the bootloader (default / dev / ttyUSB0)\n"
 #else
 " -p # - serial port number to communicate with the bootloader (for example, -p8) \n"
 "   if the -p option is not specified, auto-detect the port \n"
 #endif
-"-n      - multifile firmware mode from the specified directory\n\
--g#      - set the digital signature mode\n\
-  -gl - parameters description\n\
-  -gd - disallow signature auto-detection\n\
--m       - output the firmware file map and exit\n\
--e       - parse the firmware file into sections without headers\n\
--s       - parse the firmware file into sections with headers\n\
--k       - do not restart the modem at the end of the firmware\n\
--r       - force reboot the modem without flashing partitions\n\
--f       - flash even if there are CRC errors in the source file\n\
--d#      - set firmware type (DLOAD_ID, 0..7), -dl - type list\n\
+" -n      - multifile firmware mode from the specified directory\n\
+ -g#      - set the digital signature mode\n\
+   -gl - parameters description\n\
+   -gd - disallow signature auto-detection\n\
+ -m       - output the firmware file map and exit\n\
+ -e       - parse the firmware file into sections without headers\n\
+ -s       - parse the firmware file into sections with headers\n\
+ -k       - do not restart the modem at the end of the firmware\n\
+ -r       - force reboot the modem without flashing partitions\n\
+ -f       - flash even if there are CRC errors in the source file\n\
+ -d#      - set firmware type (DLOAD_ID, 0..7), -dl - type list\n\
 \n",argv[0]);
     return 0;
 
